@@ -1,0 +1,870 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,对象," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Liberty's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="今天,回顾了java语言中的面向对象,总的来说,我对于面向对象实际的理论理解还是有点不足,只会简单的应用。因为对象确实太过抽象,所以我只能简单的把我自己所理解的总结一下。我把它分三个板块，让自己有个比较清晰的思路。">
+<meta name="keywords" content="java,对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java面向对象">
+<meta property="og:url" content="http://yoursite.com/2017/06/20/java面向对象/index.html">
+<meta property="og:site_name" content="Liberty&#39;s Blog">
+<meta property="og:description" content="今天,回顾了java语言中的面向对象,总的来说,我对于面向对象实际的理论理解还是有点不足,只会简单的应用。因为对象确实太过抽象,所以我只能简单的把我自己所理解的总结一下。我把它分三个板块，让自己有个比较清晰的思路。">
+<meta property="og:updated_time" content="2017-06-28T07:20:57.803Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java面向对象">
+<meta name="twitter:description" content="今天,回顾了java语言中的面向对象,总的来说,我对于面向对象实际的理论理解还是有点不足,只会简单的应用。因为对象确实太过抽象,所以我只能简单的把我自己所理解的总结一下。我把它分三个板块，让自己有个比较清晰的思路。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":5},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/20/java面向对象/"/>
+
+
+
+
+
+  <title>java面向对象 | Liberty's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b2278a670cef1bebdb6c1cab267b0356";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+<script type="text/javascript"
+color="0,255,255" opacity='0.7' zIndex="-2" count="88" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+  
+  
+    
+  
+  
+  
+
+  	 
+ 
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <a href="https://github.com/zhouhao97"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Liberty's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    
+    <main id="main" class="main">
+	
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/20/java面向对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhouhao">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liberty's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">java面向对象</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T21:44:36+08:00">
+                2017-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">java基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+     
+      
+      
+
+      
+        <p>今天,回顾了java语言中的面向对象,总的来说,我对于面向对象实际的理论理解还是有点不足,只会简单的应用。因为对象确实太过抽象,所以我只能简单的把我自己所理解的总结一下。我把它分三个板块，让自己有个比较清晰的思路。<br><a id="more"></a></p>
+<h2 id="什么是类"><a href="#什么是类" class="headerlink" title="什么是类"></a>什么是类</h2><p>类的话按照标准的规范来说就是具有相同属性和方法的一组对象的集合。<br>类的概念使我们能对属于该类的全部对象进行统一的描述，学过c语言的可以通俗的认为是一种升级版的结构体。<br>片面的说类，就是一种具有特殊性质的模板，例如说，一栋房楼的图纸，这个图纸就是一个类。所以类可以理解成为就是把现实的事物通过类来描绘出来，那怎么定义??<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//简单的举几个例子</div><div class="line">class Student&#123;......&#125; //学生的一个模板 </div><div class="line">class People&#123;......&#125;  //人的一个模板</div><div class="line">class House&#123;......&#125;   //房子的一个模板</div><div class="line">class 类名&#123;......&#125;    //公用模板</div></pre></td></tr></table></figure></p>
+<h2 id="什么是对象"><a href="#什么是对象" class="headerlink" title="什么是对象"></a>什么是对象</h2><p>对象就是类的实例化，实例化就是创建一个对象。<br>通俗点说，就是通过一个模板来完成这个模板所产生的一个个体。<br>对象的作用，使我们更加方便的开发一个项目（可以理解成，让我们更快的完成一件事）。<br>举个学生学习的例子：<br>自学java：很明显，首先你需要到网上查找资料，看自己需要什么类型的书籍，这个过程是漫长的，因为java的书籍太多了，很难找到适合自己的，然后，要布置相应的java运行环境，最后，你才能正式的开始学，不说你在前面踩了多少坑，重要的是往后的学习应该有个什么样的方向，这些都是需要你发时间了解的。这过程是繁琐的。<br>所以就有了对象，你直接发钱找个好老师教你不就ok了;</p>
+<h2 id="对象怎么使用"><a href="#对象怎么使用" class="headerlink" title="对象怎么使用"></a>对象怎么使用</h2><p>就拿这个老师举例,我们如何找到这个老师，首先现实社会中必须有这个老师，这个老师应该是个什么样的呢？他有名字，年龄，性别，身高等等。那他会干什么？这是最重要的一点，如果他什么都不会，那我找他干吗，这是没有意义的。为满足我们的需求，他必须会教java，是否厉害，就得看他的教学能力了，不厉害的话，使用几天就可叫他走人了，再找一个不就ok了。<br>然后我们可以用代码描绘出来每个细节，由于java没有提供这个老师类，我们必须自己定义，<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">//按照上面的格式，这就是我所说的老师，我会写出他在java专有的名词解释</div><div class="line">//类(老师)</div><div class="line">class Teacher&#123;</div><div class="line">	//属性(名字，年龄，性别，身高)</div><div class="line">	String name;</div><div class="line">	int age;</div><div class="line">	String sex;</div><div class="line">	double height;</div><div class="line">	</div><div class="line">	//方法(这个老师会干嘛)</div><div class="line">	public void <span class="function"><span class="title">teach</span></span>()&#123;</div><div class="line">		System.out.println(<span class="string">"我会教java"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">//编写一个测试类(我们怎么找到他)</div><div class="line">public class Demo2 &#123;</div><div class="line">   //main方法(程序的入口)</div><div class="line">   public static void main(String[] args) &#123;</div><div class="line">	 //a.new + class名()(找到他，我们怎么接收他？(让他住我家)所以要一个变量接收，这个变量实际就是个地址值)</div><div class="line">	 //b.(这个家在那)那这个对象的类型是什么，就是一个老师类啊----》Teacher</div><div class="line">	 Teacher t1 = new Teacher();</div><div class="line">	 </div><div class="line">	 //找到对象后怎么用他，t1.方法名(变量名.方法名)</div><div class="line">	 t1.teach();</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行结果:我会教java<br>那怎么换老师呢，自己定义一个老师类就行了。然后按着代码来一遍不就OK了。</p>
+
+      
+    </div>
+    <div>
+    
+    ﻿<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+    
+     </div>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/对象/" rel="tag"><i class="fa fa-tag"></i> 对象</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/20/博客/" rel="next" title="个人情感">
+                <i class="fa fa-chevron-left"></i> 个人情感
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/03/Hibernate/" rel="prev" title="Hibernate入门">
+                Hibernate入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Zhouhao" />
+          <p class="site-author-name" itemprop="name">Zhouhao</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://zhouhao97.github.io/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.lgf196.top" target="_blank" title="LGF">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  LGF
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是类"><span class="nav-number">1.</span> <span class="nav-text">什么是类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是对象"><span class="nav-number">2.</span> <span class="nav-text">什么是对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象怎么使用"><span class="nav-number">3.</span> <span class="nav-text">对象怎么使用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhouhao</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      您是第
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      个小伙伴
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+ 
+   </div>
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- ҳ������С���� -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
